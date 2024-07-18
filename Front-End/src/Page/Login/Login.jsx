@@ -3,7 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import useAuthStore from '../../store/authStore';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -13,7 +13,7 @@ const LoginSchema = Yup.object().shape({
 const Login = () => {
     
      const setUser = useAuthStore((state) => state.setUser);
-     const history = useHistory();
+     const navigate = useNavigate();
 
      const handleLogin = async (values, {
         setSubmitting }) => {
@@ -22,7 +22,7 @@ const Login = () => {
                     withCredentials: true
                 });
                 setUser(response.data.user);
-                history.push('/dashboard');
+                navigate('/dashboard');
             } catch (error){
               console.error('Login failed:', error);
               setSubmitting(false);
@@ -53,7 +53,7 @@ const Login = () => {
                 <ErrorMessage name="password" component="div" className="error" />
               </div>
     
-              <button type="submit">Create Account</button>
+              <button type="submit">Login</button>
             </Form>
             )}
           </Formik>

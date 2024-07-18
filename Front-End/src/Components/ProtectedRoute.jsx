@@ -1,23 +1,11 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import useAuthStore from "../store/authStore";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import useAuthStore from '../store/authStore';
 
+const ProtectedRoute = () => {
+  const { isAuthenticated } = useAuthStore();
 
-const ProtectedRoute = ({component:
-    Component, ...rest }) =>{
-const {isAuthenticated} = useAuthStore();
-
-return(
-    <Route
-    {...rest}
-    render={(props) =>
-        isAuthenticated ? (
-            <Component {...props} />
-        ) : (
-            <Redirect to ="/Login" />
-        )
-    }
-    />
-);
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
+
 export default ProtectedRoute;

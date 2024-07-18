@@ -3,7 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import useAuthStore from '../../store/authStore';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const Signup = () => {
 
@@ -21,7 +21,7 @@ const SignupSchema = Yup.object().shape({
 
     
      const setUser = useAuthStore((state) => state.setUser);
-     const history = useHistory();
+     const navigate = useNavigate();
 
      const handleSignup = async (values, {
         setSubmitting }) => {
@@ -30,7 +30,7 @@ const SignupSchema = Yup.object().shape({
                     withCredentials: true
                 });
                 setUser(response.data.user);
-                history.push('/dashboard');
+              navigate('/dashboard');
             } catch (error){
               console.error('Signup failed:', error);
               setSubmitting(false);
