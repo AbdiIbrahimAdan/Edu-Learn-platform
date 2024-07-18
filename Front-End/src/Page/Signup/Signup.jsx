@@ -5,6 +5,9 @@ import axios from 'axios';
 import useAuthStore from '../../store/authStore';
 import {useHistory} from 'react-router-dom';
 
+const Signup = () => {
+
+    
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string().required('First Name is required'),
     lastName: Yup.string().required('Last Name is required'),
@@ -16,7 +19,6 @@ const SignupSchema = Yup.object().shape({
       .required('Confirm Password is required'),
   });
 
-const Signup = () => {
     
      const setUser = useAuthStore((state) => state.setUser);
      const history = useHistory();

@@ -18,6 +18,8 @@ const Header = () => {
                 <li><Link to= '/courses'>Courses</Link></li>
                 <li><Link to= '/assignment'>Assignment</Link></li>
                 <li><Link to= '/quizzes'>Quizzes</Link></li>
+                <li><Link to= '/dashboard'>Dashboard</Link></li>
+                <li><Link to= '/quizzes'>Quizzes</Link></li>
                 <li><button onClick={logout}>Logout</button></li>
                 <li>
                   <div className="user-info">
