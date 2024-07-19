@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 import UserManagement from './UserManagement/UserManagement';
 import CourseManagement from './CourseManagement';
-import AssignmentManagement from './AssignmentManagement';
+import AssignmentManagement from './AssignmentManagement/AssignmentManagement';
 import QuizManagement from './QuizManagement';
 
 const Dashboard = () => {
