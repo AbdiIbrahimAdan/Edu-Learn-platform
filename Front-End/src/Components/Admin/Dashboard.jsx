@@ -4,7 +4,7 @@ import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
 import UserManagement from './UserManagement/UserManagement';
 import CourseManagement from './CourseManagement';
 import AssignmentManagement from './AssignmentManagement/AssignmentManagement';
-import QuizManagement from './QuizManagement';
+import QuizManagement from './QuizManagement/QuizManagement.jsx';
 
 const Dashboard = () => {
   let { path, url } = useRouteMatch();
