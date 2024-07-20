@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getUsers, deleteUser } from '../../services/api'; 
+import { getUsers, deleteUser } from '../../../Services/users.js'; 
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);

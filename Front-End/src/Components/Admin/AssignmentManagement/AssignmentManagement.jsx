@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAssignments, deleteAssignment } from '../../services/api'; 
+import { getAssignments, deleteAssignment } from '../../../Services/assignments.js'; 
 
 const AssignmentManagement = () => {
   const [assignments, setAssignments] = useState([]);

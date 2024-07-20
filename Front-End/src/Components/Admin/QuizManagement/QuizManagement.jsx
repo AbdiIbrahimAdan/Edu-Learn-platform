@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getQuizzes, deleteQuiz } from '../../services/api'; 
+import { getQuizzes, deleteQuiz } from '../../../Services/quizzes.js'; 
 const QuizManagement = () => {
   const [quizzes, setQuizzes] = useState([]);
 

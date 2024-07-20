@@ -1,13 +1,12 @@
-
 import React from 'react';
-import { Link, Route, Switch, useRouteMatch } from 'react-router-dom';
-import UserManagement from './UserManagement/UserManagement';
-import CourseManagement from './CourseManagement';
-import AssignmentManagement from './AssignmentManagement/AssignmentManagement';
+import { Link, Routes, Route, useMatch, useParams } from 'react-router-dom';
+import UserManagement from './UserManagement/UserManagement.jsx';
+import CourseManagement from './CourseManagement/CourseManagement.jsx';
+import AssignmentManagement from './AssignmentManagement/AssignmentManagement.jsx';
 import QuizManagement from './QuizManagement/QuizManagement.jsx';
 
 const Dashboard = () => {
-  let { path, url } = useRouteMatch();
+  const { path, url } = useMatch();
 
   return (
     <div className="admin-dashboard">
@@ -22,15 +21,13 @@ const Dashboard = () => {
         </ul>
       </nav>
 
-      <Switch>
-        <Route exact path={path}>
-          <DashboardHome />
-        </Route>
-        <Route path={`${path}/users`} component={UserManagement} />
-        <Route path={`${path}/courses`} component={CourseManagement} />
-        <Route path={`${path}/assignments`} component={AssignmentManagement} />
-        <Route path={`${path}/quizzes`} component={QuizManagement} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<DashboardHome />} />
+        <Route path="/users" element={<UserManagement />} />
+        <Route path="/courses" element={<CourseManagement />} />
+        <Route path="/assignments" element={<AssignmentManagement />} />
+        <Route path="/quizzes" element={<QuizManagement />} />
+      </Routes>
     </div>
   );
 };
@@ -38,7 +35,6 @@ const Dashboard = () => {
 const DashboardHome = () => (
   <div>
     <h2>Welcome to the Admin Dashboard</h2>
-    
   </div>
 );
 

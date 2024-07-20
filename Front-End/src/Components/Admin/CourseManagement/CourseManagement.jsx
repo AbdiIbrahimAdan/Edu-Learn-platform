@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getCourses, deleteCourse } from '../../services/api';
+import { getCourses, deleteCourse } from '../../../Services/courses.js';
 
 const CourseManagement = () => {
   const [courses, setCourses] = useState([]);
