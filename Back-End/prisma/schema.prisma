@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id          String        @id @default(uuid())
+  firstName   String        @map("First Name")
+  lastName    String        @map("Last Name")
+  email       String        @unique @map("Email")
+  phoneNumber String        @unique @map("Phone Number")
+  password    String        @map("Password")
+  role        Role
+
+  courses     Course[]      @relation("TeacherCourses")
+  enrollments Enrollment[]
+  assignments Assignment[] @relation("StudentAssignments")
+  quizzes     Quiz[]       @relation("StudentQuizzes")
+}
+
+model Course {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  teacherId   String
+  teacher     User         @relation("TeacherCourses", fields: [teacherId], references: [id])
+  enrollments Enrollment[]
+  assignments Assignment[] @relation("CourseAssignments")
+  quizzes     Quiz[]       @relation("CourseQuizzes")
+}
+
+model Enrollment {
+  id        Int    @id @default(autoincrement())
+  studentId String
+  courseId  Int
+  student   User   @relation(fields: [studentId], references: [id])
+  course    Course @relation(fields: [courseId], references: [id])
+
+  @@unique([studentId, courseId])
+}
+
+model Assignment {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  courseId    Int
+  studentId   String
+  course      Course   @relation("CourseAssignments", fields: [courseId], references: [id])
+  student     User     @relation("StudentAssignments", fields: [studentId], references: [id])
+}
+
+model Quiz {
+  id          Int      @id @default(autoincrement())
+  title       String
+  questions   String
+  courseId    Int
+  studentId   String
+  course      Course   @relation("CourseQuizzes", fields: [courseId], references: [id])
+  student     User     @relation("StudentQuizzes", fields: [studentId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
