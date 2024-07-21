@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes, FaUserCircle } from 'react-icons/fa';
 import useAuthStore from '../../store/authStore';
 import './Header.css';
@@ -15,6 +14,8 @@ const Header = () => {
     navigate('/login');
   };
 
+  console.log('isAuthenticated:', isAuthenticated); 
+  console.log('user:', user); 
   return (
     <header>
       <nav className='main'>

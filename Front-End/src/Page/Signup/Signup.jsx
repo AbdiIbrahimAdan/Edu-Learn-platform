@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import useAuthStore from '../../store/authStore';
 import {useNavigate} from 'react-router-dom';
+import './Signup.css';
 
 const Signup = () => {
 
@@ -30,7 +31,7 @@ const SignupSchema = Yup.object().shape({
                     withCredentials: true
                 });
                 setUser(response.data.user);
-              navigate('/dashboard');
+              navigate('/login');
             } catch (error){
               console.error('Signup failed:', error);
               setSubmitting(false);
