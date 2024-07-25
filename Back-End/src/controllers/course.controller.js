@@ -1,4 +1,18 @@
+
 import prisma from '../config/prismaClient.js';
+import multer from 'multer';
+import path from 'path';
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage }).single('image');
 
 export const getCourses = async (req, res) => {
   try {
@@ -14,7 +28,6 @@ export const getCourses = async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve courses' });
   }
 };
-
 
 export const getCourseById = async (req, res) => {
   const { id } = req.params;
@@ -36,47 +49,59 @@ export const getCourseById = async (req, res) => {
   }
 };
 
-
 export const createCourse = async (req, res) => {
-  const { title, description, teacherId } = req.body;
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: 'Failed to upload image' });
+    }
 
-  try {
-    const newCourse = await prisma.course.create({
-      data: {
-        title,
-        description,
-        teacherId,
-      },
-    });
-    res.status(201).json(newCourse);
-  } catch (error) {
-    res.status(400).json({ error: 'Failed to create course' });
-  }
+    const { title, description, teacherId } = req.body;
+    const imageUrl = req.file ? req.file.path : null;
+
+    try {
+      const newCourse = await prisma.course.create({
+        data: {
+          title,
+          description,
+          imageUrl,
+          teacherId,
+        },
+      });
+      res.status(201).json(newCourse);
+    } catch (error) {
+      res.status(400).json({ error: 'Failed to create course' });
+    }
+  });
 };
-
 
 export const updateCourse = async (req, res) => {
-  const { id } = req.params;
-  const { title, description } = req.body;
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: 'Failed to upload image' });
+    }
 
-  try {
-    const updatedCourse = await prisma.course.update({
-      where: { id: parseInt(id) },
-      data: {
-        title,
-        description,
-      },
-    });
-    res.json(updatedCourse);
-  } catch (error) {
-    res.status(400).json({ error: 'Failed to update course' });
-  }
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const imageUrl = req.file ? req.file.path : req.body.imageUrl;
+
+    try {
+      const updatedCourse = await prisma.course.update({
+        where: { id: parseInt(id) },
+        data: {
+          title,
+          description,
+          imageUrl,
+        },
+      });
+      res.json(updatedCourse);
+    } catch (error) {
+      res.status(400).json({ error: 'Failed to update course' });
+    }
+  });
 };
-
 
 export const deleteCourse = async (req, res) => {
   const { id } = req.params;
-
   try {
     await prisma.course.delete({
       where: { id: parseInt(id) },

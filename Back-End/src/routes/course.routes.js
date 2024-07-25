@@ -1,4 +1,4 @@
-import express from 'express';
+import {Router} from 'express';
 import {
   getCourses,
   getCourseById,
@@ -8,15 +8,13 @@ import {
 } from '../controllers/course.controller.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
 
-const router = express.Router();
-
+const router = Router();
 
 router.get('/', authMiddleware, getCourses);
 router.get('/:id', authMiddleware, getCourseById);
 router.post('/', authMiddleware, createCourse);
-
 router.put('/:id', authMiddleware, updateCourse);
-
 router.delete('/:id', authMiddleware, deleteCourse);
 
 export default router;
+

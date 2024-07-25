@@ -1,26 +1,26 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/auth.routes.js';
+import userRoutes from './routes/user.routes.js';
+import  teacherRoutes from './routes/teacher.routes.js';
 import adminRoutes from './routes/admin.routes.js';
-import courseRoutes from './routes/course.routes.js';
-import assignmentRoutes from './routes/assignment.routes.js';
-import quizRoutes from './routes/quiz.routes.js';
-import {config} from 'dotenv';
+import { config } from 'dotenv';
 
 config();
 const app = express();
-const PORT = process.env.PORT 
+const PORT = process.env.PORT || 5000;
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true,
+}));
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 
-app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/teacher', teacherRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/courses', courseRoutes);
-app.use('/api/assignments', assignmentRoutes);
-app.use('/api/quizzes', quizRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

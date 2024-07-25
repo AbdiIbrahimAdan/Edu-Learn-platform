@@ -11,61 +11,101 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-model User {
-  id          String        @id @default(uuid())
+}model User {
+  id          String        @id @default(uuid()) @map("id")
   firstName   String        @map("First Name")
   lastName    String        @map("Last Name")
   email       String        @unique @map("Email")
   phoneNumber String        @unique @map("Phone Number")
   password    String        @map("Password")
-  role        Role
+  role        Role          @default(STUDENT) @map("Role")
 
   courses     Course[]      @relation("TeacherCourses")
   enrollments Enrollment[]
-  assignments Assignment[] @relation("StudentAssignments")
-  quizzes     Quiz[]       @relation("StudentQuizzes")
+  assignments Assignment[]  @relation("StudentAssignments")
+  quizzes     Quiz[]        @relation("StudentQuizzes")
+
+  @@map("user_table")
 }
 
 model Course {
-  id          Int          @id @default(autoincrement())
-  title       String
-  description String
-  teacherId   String
-  teacher     User         @relation("TeacherCourses", fields: [teacherId], references: [id])
+  id          Int           @id @default(autoincrement()) @map("id")
+  title       String        @map("Title")
+  description String        @map("Description")
+  imageUrl    String        @map("ImageUrl")
+  teacherId   String        @map("TeacherId")
+  teacher     User          @relation("TeacherCourses", fields: [teacherId], references: [id])
+  modules     Module[]      @relation("CourseModules")
   enrollments Enrollment[]
-  assignments Assignment[] @relation("CourseAssignments")
-  quizzes     Quiz[]       @relation("CourseQuizzes")
+  assignments Assignment[]  @relation("CourseAssignments")
+  quizzes     Quiz[]        @relation("CourseQuizzes")
+
+  @@map("course_table")
+}
+
+model Module {
+  id       Int      @id @default(autoincrement()) @map("id")
+  title    String   @map("Title")
+  courseId Int      @map("CourseId")
+  course   Course   @relation("CourseModules", fields: [courseId], references: [id])
+  lessons  Lesson[] @relation("ModuleLessons")
+
+  @@map("module_table")
+}
+
+model Lesson {
+  id         Int       @id @default(autoincrement()) @map("id")
+  title      String    @map("Title")
+  moduleId   Int       @map("ModuleId")
+  module     Module    @relation("ModuleLessons", fields: [moduleId], references: [id])
+  subLessons SubLesson[]
+
+  @@map("lesson_table")
+}
+
+model SubLesson {
+  id       Int    @id @default(autoincrement()) @map("id")
+  title    String @map("Title")
+  content  String @map("Content")
+  lessonId Int    @map("LessonId")
+  lesson   Lesson @relation(fields: [lessonId], references: [id])
+
+  @@map("sub_lesson_table")
+}
+
+model Assignment {
+  id       Int    @id @default(autoincrement()) @map("id")
+  title    String @map("Title")
+  content  String @map("Content")
+  courseId Int    @map("CourseId")
+  course   Course @relation("CourseAssignments", fields: [courseId], references: [id])
+  studentId String @map("StudentId")
+  student   User   @relation("StudentAssignments", fields: [studentId], references: [id])
+
+  @@map("assignment_table")
+}
+
+model Quiz {
+  id       Int      @id @default(autoincrement()) @map("id")
+  title    String   @map("Title")
+  questions String  @map("Questions")
+  courseId Int      @map("CourseId")
+  course   Course   @relation("CourseQuizzes", fields: [courseId], references: [id])
+  studentId String @map("StudentId")
+  student   User   @relation("StudentQuizzes", fields: [studentId], references: [id])
+
+  @@map("quiz_table")
 }
 
 model Enrollment {
-  id        Int    @id @default(autoincrement())
-  studentId String
-  courseId  Int
+  id        Int    @id @default(autoincrement()) @map("id")
+  studentId String @map("StudentId")
+  courseId  Int    @map("CourseId")
   student   User   @relation(fields: [studentId], references: [id])
   course    Course @relation(fields: [courseId], references: [id])
 
   @@unique([studentId, courseId])
-}
-
-model Assignment {
-  id          Int      @id @default(autoincrement())
-  title       String
-  content     String
-  courseId    Int
-  studentId   String
-  course      Course   @relation("CourseAssignments", fields: [courseId], references: [id])
-  student     User     @relation("StudentAssignments", fields: [studentId], references: [id])
-}
-
-model Quiz {
-  id          Int      @id @default(autoincrement())
-  title       String
-  questions   String
-  courseId    Int
-  studentId   String
-  course      Course   @relation("CourseQuizzes", fields: [courseId], references: [id])
-  student     User     @relation("StudentQuizzes", fields: [studentId], references: [id])
+  @@map("enrollment_table")
 }
 
 enum Role {
