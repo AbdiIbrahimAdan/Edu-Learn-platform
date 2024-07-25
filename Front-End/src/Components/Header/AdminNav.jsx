@@ -4,7 +4,7 @@ import { FaBars, FaTimes, FaUserCircle } from 'react-icons/fa';
 import useAuthStore from '../../store/authStore';
 import './Header.css';
 
-const Header = () => {
+const AdminNav = () => {
   const [click, setClick] = useState(false);
   const { user, isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
@@ -22,17 +22,14 @@ const Header = () => {
           {isAuthenticated ? (
             <>
               <li><Link to='/about'>About</Link></li>
-              <li><Link to='/courses'>Courses</Link></li>
-              <li><Link to='/assignments'>Assignments</Link></li>
-              <li><Link to='/quizzes'>Quizzes</Link></li>
-              <li><Link to='/teacherdashboard'>TeacherDashboard</Link></li>
-              <li><Link to='/admindashboard'>AdminDashboard</Link></li>
+              <li><Link to='/admin/dashboard'>Dashboard</Link></li>
+              <li><Link to='/admin/users'>Manage Users</Link></li>
+              <li><Link to='/admin/courses'>Manage Courses</Link></li>
+              <li><Link to='/admin/assignments'>Manage Assignments</Link></li>
               <li><button onClick={handleLogout}>Logout</button></li>
-
               <li>
                 <div className="user-info">
-                <li><Link to='/profile'> <FaUserCircle /></Link></li>
-                 
+                  <FaUserCircle />
                   <span>{user?.firstName}</span>
                 </div>
               </li>
@@ -52,4 +49,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminNav;

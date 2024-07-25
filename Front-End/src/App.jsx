@@ -1,3 +1,4 @@
+
 import './App.css';
 import React, { useEffect } from 'react';
 import Header from './Components/Header/Header';
@@ -10,13 +11,11 @@ import AssignmentList from './Page/Assignments/AssignmentList';
 import QuizList from './Page/Quizzes/QuizList';
 import useAuthStore from './store/authStore';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import UserManagement from './Components/Admin/UserManagement/UserManagement';
-import CourseManagement from './Components/Admin/CourseManagement/CourseManagement';
-import AssignmentManagement from './Components/Admin/AssignmentManagement/AssignmentManagement';
-import QuizManagement from './Components/Admin/QuizManagement/QuizManagement';
-import Dashboard from './Components/Admin/Dashboard';
-import ProtectedRoute from './Components/ProtectedRoute';
-import AdminRoute from './Components/AdminRoute'; 
+import TeacherDashboard from './Page/Teach/TeacherDashboard';
+import AdminDashboard from './Page/Admin/AdminDashboard';
+import Profile from './Page/Profile/Profile';
+// import useStudentStore from './store/useStudentStore';
+import Footer from './Components/Footer/Footer';
 
 function App() {
   const fetchUser = useAuthStore((state) => state.fetchUser);
@@ -25,6 +24,14 @@ function App() {
     fetchUser();
   }, [fetchUser]);
 
+  // const { fetchStudent } = useAuthStore(state => ({
+  //   fetchStudent: state.fetchStudent,
+  // }));
+
+  // useEffect(() => {
+  //   fetchStudent();
+  // }, [fetchStudent]);
+
   return (
     <BrowserRouter>
       <Header />
@@ -32,22 +39,16 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path='/about' element={<About />} />
-          <Route path='/courses' element={<CourseList />} />
-          <Route path='/assignments' element={<AssignmentList />} />
-          <Route path='/quizzes' element={<QuizList />} />
-        </Route>
-        <Route element={<ProtectedRoute />}>
-          <Route element={<AdminRoute />}>
-            <Route path='/admin' element={<Dashboard />} />
-            <Route path='/admin/users' element={<UserManagement />} />
-            <Route path='/admin/courses' element={<CourseManagement />} />
-            <Route path='/admin/assignments' element={<AssignmentManagement />} />
-            <Route path='/admin/quizzes' element={<QuizManagement />} />
-          </Route>
-        </Route>
+        <Route path='/about' element={<About />} />
+        <Route path='/courses' element={<CourseList />} />
+        <Route path='/assignments' element={<AssignmentList />} />
+        <Route path='/quizzes' element={<QuizList />} />
+        <Route path='/profile' element={<Profile />} />
+
+        <Route path='/admindashboard' element={<AdminDashboard />} />
+        <Route path='/teacherdashboard' element={<TeacherDashboard />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

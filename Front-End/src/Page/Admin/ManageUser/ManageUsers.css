@@ -1,0 +1,64 @@
+.manage-users {
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .user-card {
+    flex: 1 1 calc(25% - 40px);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .user-card h2 {
+    margin-top: 0;
+  }
+  
+  .user-card p {
+    margin: 10px 0;
+  }
+  
+  .user-card button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .user-card button:hover {
+    background-color: #d32f2f;
+  }
+  
+  @media (max-width: 1200px) {
+    .user-card {
+      flex: 1 1 calc(33.33% - 40px);
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .user-card {
+      flex: 1 1 calc(50% - 40px);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .user-card {
+      flex: 1 1 calc(100% - 40px);
+    }
+  }
+  

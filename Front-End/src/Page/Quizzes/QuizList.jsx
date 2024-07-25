@@ -5,7 +5,7 @@ const QuizList = () => {
     <div>
       <h1>Quizzes</h1>
     </div>
-  )
-}
+  );
+};
 
-export default QuizList
+export default QuizList;
